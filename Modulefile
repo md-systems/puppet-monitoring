@@ -7,4 +7,5 @@ description 'Centralized monitoring using Munin and Icinga.'
 project_page 'https://github.com/md-systems/puppet-monitoring'
 
 dependency 'proletaryo/munin', '~> 0.5.0'
-
+dependency 'fsalum/redis', '~> 0.0.11'
+dependency 'puppetlabs/rabbitmq', '~>3.1.0'
