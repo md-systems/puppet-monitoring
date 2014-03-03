@@ -36,4 +36,19 @@ class monitoring::sensu (
     read_permission      => '.*',
     write_permission     => '.*',
   }
+
+  package {'ruby-json':
+    ensure => present,
+  }
+
+  class { 'sensu':
+    rabbitmq_password => $rabbitmq_password,
+    server            => true,
+    dashboard         => true,
+    api               => true,
+  }
+
+  Class['redis']->Class['sensu']
+  Class['rebbitmq']->Class['sensu']
+  Package['ruby-json']->Class['sensu']
 }
