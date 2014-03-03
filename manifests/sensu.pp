@@ -13,23 +13,25 @@
 # Copyright 2014 MD Systems.
 #
 class monitoring::sensu (
-  $rabbitmq_password
+  $rabbitmq_password,
+  $rabbitmq_vhost = 'sensu',
+  $rabbitmq_user = 'sensu'
 ) {
   class {'redis': }
   class {'rabbitmq':
     delete_guest_user => true,
   }
 
-  rabbitmq_user { 'sensu':
+  rabbitmq_user { $rabbitmq_user:
     admin    => true,
     password => $rabbitmq_password,
   }
 
-  rabbitmq_vhost { 'sensu':
+  rabbitmq_vhost { $rabbitmq_vhost:
     ensure => present,
   }
 
-  rabbitmq_user_permissions { 'sensu@*':
+  rabbitmq_user_permissions { "${rabbitmq_user}@${rabbitmq_vhost}":
     configure_permission => '.*',
     read_permission      => '.*',
     write_permission     => '.*',
