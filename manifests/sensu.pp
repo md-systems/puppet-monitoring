@@ -1,8 +1,8 @@
-# == Class: monitoring
+# == Class: monitoring::sensu
 #
 # === Examples
 #
-#  class { 'monitoring': }
+#  class { 'monitoring::sensu': }
 #
 # === Authors
 #
@@ -10,7 +10,7 @@
 #
 # === Copyright
 #
-# Copyright 2013 MD Systems.
+# Copyright 2014 MD Systems.
 #
 class monitoring::sensu (
   $rabbitmq_password
