@@ -2,7 +2,9 @@
 #
 # === Examples
 #
-#  class { 'monitoring::sensu': }
+#  class { 'monitoring::sensu':
+#    rabbitmq_password => 'sensu',
+#  }
 #
 # === Authors
 #
