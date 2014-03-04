@@ -47,9 +47,18 @@ class monitoring::sensu (
     server            => true,
     dashboard         => true,
     api               => true,
+    plugins           => [
+      'puppet:///modules/monitoring/files/sensu/plugins/check-procs.rb'
+    ],
   }
 
   Class['::redis']->Class['::sensu']
   Class['::rabbitmq']->Class['::sensu']
   Class['::monitoring::sensu::install']->Class['::sensu']
+
+  sensu::check{ 'cron_check':
+    command      => '/etc/sensu/plugins/check-procs.rb -p crond -C 1',
+    handlers     => 'default',
+    subscribers  => 'default'
+  }
 }
