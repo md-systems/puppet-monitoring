@@ -95,8 +95,10 @@ class monitoring::sensu (
   sensu::check{ 'check_cpu':
     command      => '/etc/sensu/plugins/check-cpu.rb',
   }
-  sensu::check{ 'cpu_metrics':
-    command      => '/etc/sensu/plugins/cpu-matrics.rb',
-    type         => 'metric',
+  sensu::check { 'cpu_metrics':
+    command  => '/etc/sensu/plugins/cpu-metrics.rb',
+    type     => 'metric',
+    handlers => ['graphite'],
+    interval => 10,
   }
 }
