@@ -1,10 +1,16 @@
 # == Class: monitoring::sensu
 #
+# Installs a sensu server with rabbitmq and redis all on one host.
+#
 # === Examples
 #
 #  class { 'monitoring::sensu':
 #    rabbitmq_password => 'sensu',
 #  }
+#
+# === Requirments
+#
+# On debian systems the packages rub-dev and buidl-essential needs to be present.
 #
 # === Authors
 #
