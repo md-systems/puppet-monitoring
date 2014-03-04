@@ -45,6 +45,8 @@ class monitoring::sensu (
     write_permission     => '.*',
   }
 
+  class { '::graphite': }
+
   include ::monitoring::sensu::install
 
   class { '::sensu':
