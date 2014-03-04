@@ -21,7 +21,7 @@
 # Copyright 2014 MD Systems.
 #
 class monitoring::sensu (
-  $rabbitmq_password,
+  $rabbitmq_password = 'secret',
   $rabbitmq_vhost = '/sensu',
   $rabbitmq_user = 'sensu',
   $rabbitmq_exchange = 'metrics'
