@@ -17,8 +17,8 @@ class monitoring::sensu (
   $rabbitmq_vhost = 'sensu',
   $rabbitmq_user = 'sensu'
 ) {
-  class {'redis': }
-  class {'rabbitmq':
+  class {'::redis': }
+  class {'::rabbitmq':
     delete_guest_user => true,
   }
 
@@ -41,14 +41,14 @@ class monitoring::sensu (
     ensure => present,
   }
 
-  class { 'sensu':
+  class { '::sensu':
     rabbitmq_password => $rabbitmq_password,
     server            => true,
     dashboard         => true,
     api               => true,
   }
 
-  Class['redis']->Class['sensu']
-  Class['rebbitmq']->Class['sensu']
-  Package['ruby-json']->Class['sensu']
+  Class['::redis']->Class['::sensu']
+  Class['::rabbitmq']->Class['::sensu']
+  Package['ruby-json']->Class['::sensu']
 }
