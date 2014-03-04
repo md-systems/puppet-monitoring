@@ -10,7 +10,8 @@
 #
 # === Requirments
 #
-# On debian systems the packages rub-dev and buidl-essential needs to be present.
+# On debian systems the packages rub-dev and buidl-essential needs to be
+# present.
 #
 # === Authors
 #
@@ -89,11 +90,11 @@ class monitoring::sensu (
     standalone   => false,
   }
 
-  sensu::check{ 'check_cron':
-    command      => '/etc/sensu/plugins/check-procs.rb -p crond -C 1',
+  sensu::check { 'check_cron':
+    command => '/etc/sensu/plugins/check-procs.rb -p crond -C 1',
   }
-  sensu::check{ 'check_cpu':
-    command      => '/etc/sensu/plugins/check-cpu.rb',
+  sensu::check { 'check_cpu':
+    command => '/etc/sensu/plugins/check-cpu.rb',
   }
   sensu::check { 'cpu_metrics':
     command  => '/etc/sensu/plugins/cpu-metrics.rb',
