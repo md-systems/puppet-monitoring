@@ -56,7 +56,9 @@ class monitoring::sensu (
     dashboard         => true,
     api               => true,
     plugins           => [
-      'puppet:///modules/monitoring/files/sensu/plugins/check-procs.rb'
+      'puppet:///modules/monitoring/sensu/plugins/check-cpu.rb',
+      'puppet:///modules/monitoring/sensu/plugins/check-procs.rb',
+      'puppet:///modules/monitoring/sensu/plugins/cpu-metrics.rb'
     ],
   }
 
@@ -64,9 +66,20 @@ class monitoring::sensu (
   Class['::rabbitmq']->Class['::sensu']
   Class['::monitoring::sensu::install']->Class['::sensu']
 
-  sensu::check{ 'cron_check':
-    command      => '/etc/sensu/plugins/check-procs.rb -p crond -C 1',
+  Sensu::Check {
     handlers     => 'default',
-    subscribers  => 'default'
+    subscribers  => 'default',
+    standalone   => false,
+  }
+
+  sensu::check{ 'check_cron':
+    command      => '/etc/sensu/plugins/check-procs.rb -p crond -C 1',
+  }
+  sensu::check{ 'check_cpu':
+    command      => '/etc/sensu/plugins/check-cpu.rb',
+  }
+  sensu::check{ 'cpu_metrics':
+    command      => '/etc/sensu/plugins/cpu-matrics.rb',
+    type         => 'metric',
   }
 }
