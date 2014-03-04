@@ -39,9 +39,7 @@ class monitoring::sensu (
     write_permission     => '.*',
   }
 
-  package {'ruby-json':
-    ensure => present,
-  }
+  include ::monitoring::sensu::install
 
   class { '::sensu':
     rabbitmq_password => $rabbitmq_password,
@@ -53,5 +51,5 @@ class monitoring::sensu (
 
   Class['::redis']->Class['::sensu']
   Class['::rabbitmq']->Class['::sensu']
-  Package['ruby-json']->Class['::sensu']
+  Class['::monitoring::sensu::install']->Class['::sensu']
 }
