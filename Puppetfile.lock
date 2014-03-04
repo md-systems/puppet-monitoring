@@ -1,0 +1,41 @@
+FORGE
+  remote: http://forge.puppetlabs.com
+  specs:
+    dwerder/graphite (5.1.0)
+      puppetlabs/stdlib (>= 2.2.1)
+    fsalum/redis (0.0.11)
+      thias/sysctl (= 0.3.0)
+    garethr/erlang (0.2.0)
+      puppetlabs/apt (>= 0.0.0)
+      puppetlabs/stdlib (>= 0.0.0)
+      stahnma/epel (>= 0.0.0)
+    proletaryo/munin (0.5.2)
+    puppetlabs/apt (1.4.2)
+      puppetlabs/stdlib (>= 2.2.1)
+    puppetlabs/rabbitmq (3.1.0)
+      garethr/erlang (>= 0.1.0)
+      puppetlabs/apt (>= 1.0.0)
+      puppetlabs/stdlib (>= 2.0.0)
+    puppetlabs/stdlib (4.1.0)
+    sensu/sensu (1.0.0)
+      puppetlabs/apt (>= 0.0.1)
+      puppetlabs/stdlib (>= 0.0.1)
+    stahnma/epel (0.0.6)
+    thias/sysctl (0.3.0)
+
+GIT
+  remote: https://github.com/echocat/puppet-graphite.git
+  ref: master
+  sha: 1064f4ff370567862aafe79fd0ceec2e76dd8490
+  specs:
+    graphite (5.1.0)
+      puppetlabs/stdlib (>= 2.2.1)
+
+DEPENDENCIES
+  dwerder/graphite (~> 5.1.0)
+  fsalum/redis (~> 0.0.11)
+  graphite (>= 0)
+  proletaryo/munin (~> 0.5.0)
+  puppetlabs/rabbitmq (~> 3.1.0)
+  sensu/sensu (~> 1.0.0)
+
