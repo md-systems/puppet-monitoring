@@ -17,3 +17,6 @@ tags
 ## Puppet
 .tmp/
 modules
+
+## Vagrant
+.vagrant
