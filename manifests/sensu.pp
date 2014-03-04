@@ -14,7 +14,7 @@
 #
 class monitoring::sensu (
   $rabbitmq_password,
-  $rabbitmq_vhost = 'sensu',
+  $rabbitmq_vhost = '/sensu',
   $rabbitmq_user = 'sensu'
 ) {
   class {'::redis': }
@@ -43,6 +43,7 @@ class monitoring::sensu (
 
   class { '::sensu':
     rabbitmq_password => $rabbitmq_password,
+    rabbitmq_vhost    => $rabbitmq_vhost,
     server            => true,
     dashboard         => true,
     api               => true,
