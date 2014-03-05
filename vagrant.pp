@@ -27,4 +27,4 @@ package { 'ruby-dev':
   ensure => present,
 }
 
-include monitoring::sensu
+include monitoring::server

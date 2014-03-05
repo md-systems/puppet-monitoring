@@ -1,10 +1,10 @@
-# == Class: monitoring::sensu
+# == Class: monitoring::server
 #
 # Installs a sensu server with rabbitmq and redis all on one host.
 #
 # === Examples
 #
-#  class { 'monitoring::sensu':
+#  class { 'monitoring::server':
 #    rabbitmq_password => 'sensu',
 #  }
 #
@@ -21,7 +21,7 @@
 #
 # Copyright 2014 MD Systems.
 #
-class monitoring::sensu (
+class monitoring::server (
   $rabbitmq_password = 'secret',
   $rabbitmq_vhost = '/sensu',
   $rabbitmq_user = 'sensu',
