@@ -14,7 +14,7 @@
 #
 # Copyright 2014 MD Systems.
 #
-class monitoring::sensu::install {
+class monitoring::server::install {
   package {'ruby-json':
     ensure => present,
   }

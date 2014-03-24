@@ -22,11 +22,13 @@
 # Copyright 2014 MD Systems.
 #
 class monitoring::server (
-  $rabbitmq_password = 'secret',
-  $rabbitmq_vhost = '/sensu',
-  $rabbitmq_user = 'sensu',
-  $rabbitmq_exchange = 'metrics'
-) {
+  $checks            = undef,
+  $plugins           = undef,
+  $rabbitmq_password = $monitoring::params::rabbitmq_password,
+  $rabbitmq_vhost    = $monitoring::params::rabbitmq_vhost,
+  $rabbitmq_user     = $monitoring::params::rabbitmq_user,
+  $rabbitmq_exchange = $monitoring::params::rabbitmq_exchange
+) inherits monitoring::params {
   class {'::redis': }
   class {'::rabbitmq':
     delete_guest_user => true,
@@ -56,7 +58,15 @@ class monitoring::server (
     gr_amqp_metric_name_in_body => true,
   }
 
-  include ::monitoring::sensu::install
+  include ::monitoring::server::install
+
+
+  if $plugins {
+     $plugins_real = $plugins
+  }
+  else {
+    $plugins_real = hiera_hash('monitoring::plugins', [])
+  }
 
   class { '::sensu':
     rabbitmq_password => $rabbitmq_password,
@@ -64,16 +74,12 @@ class monitoring::server (
     server            => true,
     dashboard         => true,
     api               => true,
-    plugins           => [
-      'puppet:///modules/monitoring/sensu/plugins/check-cpu.rb',
-      'puppet:///modules/monitoring/sensu/plugins/check-procs.rb',
-      'puppet:///modules/monitoring/sensu/plugins/cpu-metrics.rb'
-    ],
+    plugins           => $plugins_real,
   }
 
   Class['::redis']->Class['::sensu']
   Class['::rabbitmq']->Class['::sensu']
-  Class['::monitoring::sensu::install']->Class['::sensu']
+  Class['::monitoring::server::install']->Class['::sensu']
 
   sensu::handler { 'graphite':
     type     => 'amqp',
@@ -82,24 +88,24 @@ class monitoring::server (
       'name'    => $rabbitmq_exchange,
       'durable' => true
     },
+    mutator => [
+      'only_check_output',
+    ]
   }
 
-  Sensu::Check {
+  $defaults = {
     handlers     => 'default',
     subscribers  => 'default',
     standalone   => false,
   }
 
-  sensu::check { 'check_cron':
-    command => '/etc/sensu/plugins/check-procs.rb -p crond -C 1',
+  if $checks {
+    create_resources(sensu::check, $checks, $defaults)
   }
-  sensu::check { 'check_cpu':
-    command => '/etc/sensu/plugins/check-cpu.rb',
-  }
-  sensu::check { 'cpu_metrics':
-    command  => '/etc/sensu/plugins/cpu-metrics.rb',
-    type     => 'metric',
-    handlers => ['graphite'],
-    interval => 10,
+  else {
+    $hiera_checks = hiera_hash('monitoring::checks', undef)
+    if $hiera_checks {
+      create_resources(sensu::check, $hiera_checks, $defaults)
+    }
   }
 }

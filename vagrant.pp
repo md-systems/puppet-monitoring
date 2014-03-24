@@ -7,9 +7,10 @@ package { 'python-dev':
   before => Package['txamqp'],
 }
 
-package { ' twisted':
+package { 'twisted':
   ensure   => '11.1.0',
   provider => pip,
+  # @todo: Check dependencies. Currently two runs are required.
   require  => Package['python-pip'],
 }
 
@@ -27,4 +28,24 @@ package { 'ruby-dev':
   ensure => present,
 }
 
-include monitoring::server
+class { monitoring::server:
+  plugins => [
+    'puppet:///modules/monitoring/sensu/plugins/check-cpu.rb',
+    'puppet:///modules/monitoring/sensu/plugins/check-procs.rb',
+    'puppet:///modules/monitoring/sensu/plugins/cpu-metrics.rb'
+  ],
+  checks => {
+    check_cron => {
+      command => '/etc/sensu/plugins/check-procs.rb -p crond -C 1'
+    },
+    check_cpu => {
+      command => '/etc/sensu/plugins/check-cpu.rb'
+    },
+    cpu_metrics => {
+      command => '/etc/sensu/plugins/cpu-metrics.rb',
+      type => 'metric',
+      handlers => ['graphite'],
+      interval => 10
+    }
+  }
+}
