@@ -13,3 +13,10 @@ tmtags
 ## VIM
 *.swp
 tags
+
+## Puppet
+.tmp/
+modules
+
+## Vagrant
+.vagrant
