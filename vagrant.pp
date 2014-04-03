@@ -1,16 +1,16 @@
 package { 'python-pip':
   ensure => present,
+  require  => Package['python-dev'],
 }
 
 package { 'python-dev':
   ensure => present,
-  before => Package['txamqp'],
+  require  => Package['build-essential'],
 }
 
 package { 'twisted':
   ensure   => '11.1.0',
   provider => pip,
-  # @todo: Check dependencies. Currently two runs are required.
   require  => Package['python-pip'],
 }
 
@@ -26,6 +26,7 @@ package { 'build-essential':
 
 package { 'ruby-dev':
   ensure => present,
+  require  => Package['build-essential'],
 }
 
 class { monitoring::server:
