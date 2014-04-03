@@ -53,3 +53,14 @@ node 'monitoring.example.com' {
     }
   }
 }
+
+node 'client.example.com' {
+  class { monitoring:
+    rabbitmq_host => '10.35.107.132',
+    plugins => [
+      'puppet:///modules/monitoring/sensu/plugins/check-cpu.rb',
+      'puppet:///modules/monitoring/sensu/plugins/check-procs.rb',
+      'puppet:///modules/monitoring/sensu/plugins/cpu-metrics.rb'
+    ],
+  }
+}
