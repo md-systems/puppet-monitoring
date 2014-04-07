@@ -24,6 +24,7 @@
 class monitoring::server (
   $checks            = undef,
   $plugins           = undef,
+  $subscriptions     = $monitoring::params::subscriptions,
   $rabbitmq_password = $monitoring::params::rabbitmq_password,
   $rabbitmq_vhost    = $monitoring::params::rabbitmq_vhost,
   $rabbitmq_user     = $monitoring::params::rabbitmq_user,
@@ -75,6 +76,7 @@ class monitoring::server (
     dashboard         => true,
     api               => true,
     plugins           => $plugins_real,
+    subscriptions     => $subscriptions
   }
 
   Class['::redis']->Class['::sensu']
@@ -90,7 +92,7 @@ class monitoring::server (
     },
     mutator => [
       'only_check_output',
-    ]
+    ],
   }
 
   $defaults = {

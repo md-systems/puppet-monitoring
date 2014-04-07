@@ -16,4 +16,6 @@ class monitoring::params {
   } else {
     fail("Class['monitoring::params']: Unsupported osfamily: ${::osfamily}")
   }
+
+  $subscriptions = ['default']
 }
