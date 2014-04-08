@@ -66,7 +66,7 @@ class monitoring::server (
      $plugins_real = $plugins
   }
   else {
-    $plugins_real = hiera_hash('monitoring::plugins', [])
+    $plugins_real = hiera_array('monitoring::plugins', [])
   }
 
   class { '::sensu':
