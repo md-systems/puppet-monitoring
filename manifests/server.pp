@@ -57,6 +57,12 @@ class monitoring::server (
     gr_amqp_password            => $rabbitmq_password,
     gr_amqp_exchange            => $rabbitmq_exchange,
     gr_amqp_metric_name_in_body => true,
+    gr_storage_aggregation_rules => {
+     # The default storage scheme from the graphite example but with factor set
+     # to zero. The aggregation should happen regardless of the amount of
+     # received values.
+     '99_default_avg' => { pattern => '.*',       factor => '0.0', method => 'average'}
+   }
   }
 
   include ::monitoring::server::install
