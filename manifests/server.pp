@@ -22,13 +22,15 @@
 # Copyright 2014 MD Systems.
 #
 class monitoring::server (
-  $checks            = undef,
-  $plugins           = undef,
-  $subscriptions     = $monitoring::params::subscriptions,
-  $rabbitmq_password = $monitoring::params::rabbitmq_password,
-  $rabbitmq_vhost    = $monitoring::params::rabbitmq_vhost,
-  $rabbitmq_user     = $monitoring::params::rabbitmq_user,
-  $rabbitmq_exchange = $monitoring::params::rabbitmq_exchange
+  $checks              = undef,
+  $plugins             = undef,
+  $subscriptions       = $monitoring::params::subscriptions,
+  $graphite_vhost_name = $monitoring::params::graphite_vhost_name,
+  $graphite_vhost_port = $monitoring::params::graphite_vhost_port,
+  $rabbitmq_password   = $monitoring::params::rabbitmq_password,
+  $rabbitmq_vhost      = $monitoring::params::rabbitmq_vhost,
+  $rabbitmq_user       = $monitoring::params::rabbitmq_user,
+  $rabbitmq_exchange   = $monitoring::params::rabbitmq_exchange
 ) inherits monitoring::params {
   class {'::redis': }
   class {'::rabbitmq':
@@ -51,6 +53,8 @@ class monitoring::server (
   }
 
   class { '::graphite':
+    gr_web_servername           => $graphite_vhost_name,
+    gr_apache_port              => $graphite_vhost_port,
     gr_amqp_enable              => true,
     gr_amqp_vhost               => $rabbitmq_vhost,
     gr_amqp_user                => $rabbitmq_user,
