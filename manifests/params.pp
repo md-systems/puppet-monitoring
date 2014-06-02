@@ -19,6 +19,6 @@ class monitoring::params {
 
   $subscriptions = ['default']
 
-  $graphite_vhost_name = "grahite.${$::fqdn}"
+  $graphite_vhost_name = "graphite.${$::fqdn}"
   $graphite_vhost_port = 80
 }
